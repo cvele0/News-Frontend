@@ -1,6 +1,8 @@
 <template>
     <div class="home">
-        <h1>Latest News</h1>
+        <h3 v-if="articles && articles.at(0).category">
+            {{ articles.at(0).category.name }}
+        </h3>
         <ul>
             <li v-for="article in paginatedArticles" :key="article.id">
                 <h2>{{ article.title }}</h2>
@@ -74,16 +76,33 @@ export default {
             // Return the formatted date and time
             return formattedDate + ' ' + formattedTime;
         },
+        fetchCategories(id) {
+            this.$axios.get('/api/news/byCategory/' + id)
+                .then(response => {
+                    this.articles = response.data;
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        }
     },
     mounted() {
-        this.$axios.get('/api/news/lastTen')
-            .then(response => {
-                this.articles = response.data;
-            })
-            .catch(error => {
-                console.error(error);
-            });
-    }
+        const id = this.$route.params.id;
+        console.log(this.$route.params);
+        this.fetchCategories(id);
+    },
+    watch: {
+        '$route.params.id'(newCategoryId) {
+            this.fetchCategories(newCategoryId);
+        },
+    },
     // Add any necessary lifecycle hooks or methods
 }
 </script>
+
+<style>
+h3 {
+    color: red;
+    text-indent: 10px;
+}
+</style>

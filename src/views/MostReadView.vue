@@ -1,6 +1,6 @@
 <template>
     <div class="home">
-        <h1>Latest News</h1>
+        <h1>Most Read News</h1>
         <ul>
             <li v-for="article in paginatedArticles" :key="article.id">
                 <h2>{{ article.title }}</h2>
@@ -76,7 +76,7 @@ export default {
         },
     },
     mounted() {
-        this.$axios.get('/api/news/lastTen')
+        this.$axios.get('/api/news/mostRead')
             .then(response => {
                 this.articles = response.data;
             })
