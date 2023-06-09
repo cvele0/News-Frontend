@@ -3,6 +3,7 @@
         <h2>{{ news.title }}</h2>
         <p>Date: {{ formatDate(news.timeCreated) }}</p>
         <p>Author: {{ news.author }}</p>
+        <p>View Count: {{ news.viewCount }}</p>
         <p>{{ news.text }}</p>
 
         <h3>Tags:</h3>
@@ -95,12 +96,14 @@ export default {
         fetchNews(newsId) {
             this.$axios.get(`/api/news/getNews/${newsId}`)
               .then(response => {
-                this.news = response.data;
+                  this.news = response.data;
+                  this.fetchComments(newsId);
+                  this.news.viewCount++; // Assuming `viewCount` is initially set to 0
+                  this.updateNewsViewCount(newsId, this.news.viewCount);
               })
               .catch(error => {
                 console.error(error);
               });
-            this.fetchComments(newsId);
         },
         fetchComments(newsId) {
             this.$axios.get(`/api/comments/byNewsId/${newsId}`)
@@ -109,6 +112,19 @@ export default {
                 })
                 .catch(error => {
                     console.error(error);
+                });
+        },
+        updateNewsViewCount(newsId, count) {
+            if (!count) return;
+            if (!newsId) return;
+            this.$axios
+                .put(`api/news/incrementViewCount/${newsId}?count=${count}`)
+                // eslint-disable-next-line no-unused-vars
+                .then(response => {
+                    console.log('View count incremented successfully');
+                })
+                .catch(error => {
+                    console.error('Error incrementing view count', error);
                 });
         },
         addComment() {
