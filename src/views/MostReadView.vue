@@ -36,7 +36,7 @@
                 <p class="mb-3">{{ article.text.slice(0, 100) }}</p>
                 <p v-if="article.category" class="mb-1">Category: {{ article.category.name }}</p>
                 <p class="mb-1">Publication Date: {{ formatDate(article.timeCreated) }}</p>
-                <button @click="logArticle(article)" class="btn btn-primary">Opsirnije</button>
+                <button @click="logArticle(article)" class="btn btn-primary">More</button>
             </li>
         </ul>
 

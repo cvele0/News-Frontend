@@ -29,7 +29,8 @@
 
 <template>
     <div class="home">
-        <h1 class="title">Latest News</h1>
+        <h1 class="title">CMS - All News</h1>
+        <button @click="goToAddNewsForm" class="btn btn-primary"> Create News </button>
         <ul class="list-group">
             <li v-for="article in paginatedArticles" :key="article.id" class="list-group-item">
                 <h2 class="mb-2 title">{{ article.title }}</h2>
@@ -37,6 +38,7 @@
                 <p v-if="article.category" class="mb-1">Category: {{ article.category.name }}</p>
                 <p class="mb-1">Publication Date: {{ formatDate(article.timeCreated) }}</p>
                 <button @click="logArticle(article)" class="btn btn-primary">More</button>
+                <button @click="editNews(article)" class="btn btn-primary">Edit</button>
             </li>
         </ul>
 
@@ -95,6 +97,9 @@ export default {
                 this.$router.push({ name: 'GetNews', params: { id: article.id } });
             }
         },
+        editNews(article) {
+            this.$router.push({ name: 'EditNews', params: { id: article.id } });
+        },
         formatDate(timestamp) {
             // Convert the timestamp to a Date object
             const date = new Date(timestamp);
@@ -106,9 +111,13 @@ export default {
             // Return the formatted date and time
             return formattedDate + ' ' + formattedTime;
         },
+        goToAddNewsForm() {
+            // Navigate to the form for adding a new news article
+            this.$router.push({ name: 'CreateNews' });
+        },
     },
     mounted() {
-        this.$axios.get('/api/news/lastTen')
+        this.$axios.get('/api/news')
             .then(response => {
                 this.articles = response.data;
             })
@@ -143,6 +152,9 @@ h3 {
 .btn-primary {
     background-color: #007bff;
     border-color: #007bff;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    margin-top: 20px
 }
 
 .btn-primary:hover {

@@ -7,6 +7,9 @@ import SingleNewsView from "@/views/SingleNewsView.vue";
 import CategoriesView from "@/views/CategoriesView.vue";
 import AddCategoryView from "@/views/AddCategoryView.vue";
 import EditCategoryView from "@/views/EditCategoryView.vue";
+import CmsNewsView from "@/views/CmsNewsView.vue";
+import EditNewsView from "@/views/EditNewsView.vue";
+import CreateNewsView from "@/views/CreateNewsView.vue"
 // import LoginView from "@/views/LoginView.vue";
 // import LoginView from '../views/LoginView.vue';
 
@@ -60,6 +63,21 @@ const routes = [
     path: '/editCategory/:id',
     name: 'EditCategory',
     component: EditCategoryView
+  },
+  {
+    path: '/cmsNews',
+    name: 'CmsNews',
+    component: CmsNewsView
+  },
+  {
+    path: '/editNews/:id',
+    name: 'EditNews',
+    component: EditNewsView
+  },
+  {
+    path: '/createNews',
+    name: 'CreateNews',
+    component: CreateNewsView
   }
 ]
 
