@@ -7,7 +7,7 @@
                 <p>{{ article.text.slice(0, 100) }}</p>
                 <p v-if="article.category">Category: {{ article.category.name }}</p>
                 <p>Publication Date: {{ formatDate(article.timeCreated) }}</p>
-                <button @click="logArticle(article)">Log Article</button>
+                <button @click="logArticle(article)">Opsirnije</button>
             </li>
         </ul>
 
@@ -61,7 +61,10 @@ export default {
             this.currentPage = pageNumber;
         },
         logArticle(article) {
-            console.log(article);
+            if (article == null) return;
+            if (this.$route.params.id !== article.id) {
+                this.$router.push({ name: 'GetNews', params: { id: article.id } });
+            }
         },
         formatDate(timestamp) {
             // Convert the timestamp to a Date object

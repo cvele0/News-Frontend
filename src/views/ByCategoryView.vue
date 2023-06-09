@@ -1,7 +1,7 @@
 <template>
     <div class="home">
-        <h3 v-if="articles && articles.at(0).category">
-            {{ articles.at(0).category.name }}
+        <h3 v-if="articles && articles[0].category">
+            {{ articles[0].category.name }}
         </h3>
         <ul>
             <li v-for="article in paginatedArticles" :key="article.id">
@@ -9,7 +9,7 @@
                 <p>{{ article.text.slice(0, 100) }}</p>
                 <p v-if="article.category">Category: {{ article.category.name }}</p>
                 <p>Publication Date: {{ formatDate(article.timeCreated) }}</p>
-                <button @click="logArticle(article)">Log Article</button>
+                <button @click="logArticle(article)">Opsirnije</button>
             </li>
         </ul>
 
@@ -63,7 +63,10 @@ export default {
             this.currentPage = pageNumber;
         },
         logArticle(article) {
-            console.log(article);
+            if (article == null) return;
+            if (this.$route.params.id !== article.id) {
+                this.$router.push({ name: 'GetNews', params: { id: article.id } });
+            }
         },
         formatDate(timestamp) {
             // Convert the timestamp to a Date object
@@ -102,7 +105,7 @@ export default {
 
 <style>
 h3 {
-    color: red;
+    color: #2990bf !important;
     text-indent: 10px;
 }
 </style>

@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import MostReadView from "@/views/MostReadView.vue";
 import ByOrderView from "@/views/ByCategoryView.vue";
+import SingleNewsView from "@/views/SingleNewsView.vue";
 // import LoginView from "@/views/LoginView.vue";
 // import LoginView from '../views/LoginView.vue';
 
@@ -36,6 +37,11 @@ const routes = [
     path: '/byCategory/:id',
     name: 'ByCategory',
     component: ByOrderView
+  },
+  {
+    path: '/getNews/:id',
+    name: 'GetNews',
+    component: SingleNewsView
   }
 ]
 
