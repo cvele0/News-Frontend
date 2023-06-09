@@ -57,6 +57,13 @@ export default {
             });
     },
     selectCategory(categoryId) {
+        const currentRoute = this.$router.currentRoute;
+
+        // Check if the selected category is already the current route
+        if (currentRoute.params.id === categoryId.toString()) {
+            // Category is already selected, no need to navigate again
+            return;
+        }
         if (this.$route.params.id !== categoryId) {
             this.$router.push({ name: 'ByCategory', params: { id: categoryId } });
         }

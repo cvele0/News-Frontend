@@ -1,6 +1,6 @@
 <template>
     <div class="home">
-        <h3 v-if="articles && articles[0].category">
+        <h3 v-if="articles.length && articles[0].category">
             {{ articles[0].category.name }}
         </h3>
         <ul>
