@@ -34,9 +34,10 @@
         <h3 v-if="articles.length && articles[0].category" class="mb-4">
             {{ articles[0].category.name }}
         </h3>
+        <h3 v-else>This category is empty</h3>
         <ul class="list-group">
             <li v-for="article in paginatedArticles" :key="article.id" class="list-group-item">
-                <h2 class="mb-2">{{ article.title }}</h2>
+                <h2 class="mb-2 title">{{ article.title }}</h2>
                 <p class="mb-3">{{ article.text.slice(0, 100) }}</p>
                 <p v-if="article.category" class="mb-1">Category: {{ article.category.name }}</p>
                 <p class="mb-1">Publication Date: {{ formatDate(article.timeCreated) }}</p>
@@ -135,11 +136,15 @@ export default {
 </script>
 
 <style>
+.h2 title {
+    text-align: left;
+}
 h3 {
     color: #2990bf !important;
     text-indent: 10px;
 }
 .home {
+    text-align: left;
     padding: 20px;
 }
 

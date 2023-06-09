@@ -67,4 +67,15 @@ const router = new VueRouter({
   routes
 })
 
+// const navbarType = localStorage.getItem('navbarType');
+//
+// // Check if a default route is stored in localStorage
+// if (navbarType === 'portal') {
+//   // Replace the current route with the stored default route
+//   router.replace({ name: 'home' });
+// } else {
+//   // Set a default route if no route is stored in localStorage
+//   router.replace({ name: 'Categories' });
+// }
+
 export default router

@@ -1,3 +1,20 @@
+<!--<template>-->
+<!--    <div class="category-form">-->
+<!--        <h2 class="title">Edit Category</h2>-->
+<!--        <form @submit.prevent="updateCategory">-->
+<!--            <div class="form-group">-->
+<!--                <label for="name">Name:</label>-->
+<!--                <input type="text" id="name" v-model="category.name" required>-->
+<!--            </div>-->
+<!--            <div class="form-group">-->
+<!--                <label for="description">Description:</label>-->
+<!--                <textarea id="description" v-model="category.description" required></textarea>-->
+<!--            </div>-->
+<!--            <button type="submit" class="btn btn-primary">Update Category</button>-->
+<!--        </form>-->
+<!--    </div>-->
+<!--</template>-->
+
 <template>
     <div class="category-form">
         <h2 class="title">Edit Category</h2>
@@ -32,7 +49,10 @@ export default {
             this.$axios.get(`/api/categories/${categoryId}`)
                 .then(response => {
                     // Populate the form fields with the fetched category data
-                    this.category = response.data;
+                    // this.category = response.data;
+                    const { name, description } = response.data;
+                    this.$set(this.category, 'name', name);
+                    this.$set(this.category, 'description', description);
                 })
                 .catch(error => {
                     // Handle the error if needed
@@ -58,6 +78,9 @@ export default {
     mounted() {
         // Fetch the category data when the component is mounted
         this.fetchCategory();
+    },
+    beforeMount() {
+        // this.fetchCategory();
     }
 };
 </script>

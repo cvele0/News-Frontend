@@ -7,6 +7,7 @@
             <tr>
                 <th>Name</th>
                 <th>Description</th>
+                <th>News</th> <!-- Add a new column for the Edit button -->
                 <th>Edit</th> <!-- Add a new column for the Edit button -->
             </tr>
             </thead>
@@ -15,6 +16,9 @@
             <tr v-for="category in paginatedCategories" :key="category.id">
                 <td>{{ category.name }}</td>
                 <td>{{ category.description }}</td>
+                <td>
+                    <button @click="newsByCategory(category)" class="btn btn-primary">News</button>
+                </td> <!-- Add the Edit button in a new column -->
                 <td>
                     <button @click="editCategory(category)" class="btn btn-primary">Edit</button>
                 </td> <!-- Add the Edit button in a new column -->
@@ -80,6 +84,10 @@ export default {
         editCategory(category) {
             this.$router.push({ name: 'EditCategory', params: { id: category.id } });
         },
+        newsByCategory(category) {
+            console.log(category);
+            //TODO: do this
+        }
     },
     mounted() {
         this.fetchCategories();
