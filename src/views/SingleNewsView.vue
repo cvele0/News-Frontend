@@ -1,22 +1,69 @@
-<template>
-    <div class="news-details">
-        <h2>{{ news.title }}</h2>
-        <p>Date: {{ formatDate(news.timeCreated) }}</p>
-        <p>Author: {{ news.author }}</p>
-        <p>View Count: {{ news.viewCount }}</p>
-        <p>{{ news.text }}</p>
+<!--<template>-->
+<!--    <div class="news-details">-->
+<!--        <h2>{{ news.title }}</h2>-->
+<!--        <p>Date: {{ formatDate(news.timeCreated) }}</p>-->
+<!--        <p>Author: {{ news.author }}</p>-->
+<!--        <p>View Count: {{ news.viewCount }}</p>-->
+<!--        <p>{{ news.text }}</p>-->
 
-        <h3>Tags:</h3>
+<!--        <h3>Tags:</h3>-->
+<!--&lt;!&ndash;        <ul>&ndash;&gt;-->
+<!--&lt;!&ndash;            <li v-for="tag in news.tags" :key="tag.id">{{ tag.name }}</li>&ndash;&gt;-->
+<!--&lt;!&ndash;        </ul>&ndash;&gt;-->
+
+<!--        <h3>Comments:</h3>-->
 <!--        <ul>-->
-<!--            <li v-for="tag in news.tags" :key="tag.id">{{ tag.name }}</li>-->
+<!--            <li v-for="comment in paginatedComments" :key="comment.id">-->
+<!--                <p><strong>Author:</strong> {{ comment.author }}</p>-->
+<!--                <p>{{ comment.text }}</p>-->
+<!--                <p><em>Date: {{ formatDate(comment.timeCreated) }}</em></p>-->
+<!--            </li>-->
 <!--        </ul>-->
 
+<!--        <nav>-->
+<!--            <ul class="pagination">-->
+<!--                <li class="page-item" :class="{ disabled: currentPage === 1 }">-->
+<!--                    <a class="page-link" href="#" @click="prevPage">Previous</a>-->
+<!--                </li>-->
+<!--                <li class="page-item" v-for="pageNumber in totalPages" :key="pageNumber" :class="{ active: pageNumber === currentPage }">-->
+<!--                    <a class="page-link" href="#" @click="changePage(pageNumber)">{{ pageNumber }}</a>-->
+<!--                </li>-->
+<!--                <li class="page-item" :class="{ disabled: currentPage === totalPages }">-->
+<!--                    <a class="page-link" href="#" @click="nextPage">Next</a>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--        </nav>-->
+
+<!--        <br> <h3>Add New Comment:</h3> <br>-->
+<!--        <form @submit.prevent="addComment">-->
+<!--            <input type="text" v-model="newComment.author" placeholder="Author" required>-->
+<!--            <br> <br>-->
+<!--            <textarea v-model="newComment.text" placeholder="Comment" required></textarea>-->
+<!--            <br>-->
+<!--            <button type="submit">Submit</button>-->
+<!--        </form>-->
+<!--    </div>-->
+<!--</template>-->
+
+<template>
+    <div class="news-details">
+        <h2 class="title">{{ news.title }}</h2>
+        <p class="info">Date: {{ formatDate(news.timeCreated) }}</p>
+        <p class="info">Author: {{ news.author }}</p>
+        <p class="info">View Count: {{ news.viewCount }}</p>
+        <p class="text">{{ news.text }}</p>
+
+        <h3>Tags:</h3>
+        <div class="tags">
+            <span class="tag" v-for="tag in news.tags" :key="tag.id">{{ tag.name }}</span>
+        </div>
+
         <h3>Comments:</h3>
-        <ul>
+        <ul class="comments">
             <li v-for="comment in paginatedComments" :key="comment.id">
-                <p><strong>Author:</strong> {{ comment.author }}</p>
-                <p>{{ comment.text }}</p>
-                <p><em>Date: {{ formatDate(comment.timeCreated) }}</em></p>
+                <p class="comment-author"><strong>Author:</strong> {{ comment.author }}</p>
+                <p class="comment-text">{{ comment.text }}</p>
+                <p class="comment-date"><em>Date: {{ formatDate(comment.timeCreated) }}</em></p>
             </li>
         </ul>
 
@@ -34,10 +81,13 @@
             </ul>
         </nav>
 
-        <br> <h3>Add New Comment:</h3> <br>
-        <form @submit.prevent="addComment">
+        <br>
+        <h3>Add New Comment:</h3>
+        <br>
+        <form @submit.prevent="addComment" class="comment-form">
             <input type="text" v-model="newComment.author" placeholder="Author" required>
-            <br> <br>
+            <br>
+            <br>
             <textarea v-model="newComment.text" placeholder="Comment" required></textarea>
             <br>
             <button type="submit">Submit</button>
@@ -177,22 +227,112 @@ export default {
 </script>
 
 <style scoped>
-
 .news-details {
-    margin: 30px
+    padding: 20px;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #104f98
+}
+
+.info {
+    margin-bottom: 5px;
+}
+
+.text {
+    margin-bottom: 20px;
+    margin-top: 20px;
+    color: #050794;
+}
+
+.tags {
+    margin-bottom: 20px;
+}
+
+.tag {
+    display: inline-block;
+    background-color: #f2f2f2;
+    color: #333;
+    padding: 5px 10px;
+    border-radius: 3px;
+    margin-right: 5px;
+}
+
+.comments {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 20px;
+}
+
+.comment-author {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.comment-text {
+    margin-bottom: 10px;
+}
+
+.comment-date {
+    font-style: italic;
 }
 
 .pagination {
     display: flex;
-    list-style-type: none;
+    justify-content: center;
+    list-style: none;
     padding: 0;
+    margin-top: 20px;
 }
 
 .page-item {
-    margin: 0 5px;
+    margin-right: 5px;
 }
 
 .page-link {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #f2f2f2;
+    color: #333;
+    border-radius: 3px;
+}
+
+.page-link:hover {
+    background-color: #e6e6e6;
+    color: #333;
+}
+
+.page-item.disabled .page-link {
+    background-color: #ddd;
+    color: #888;
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
+.comment-form {
+    margin-top: 20px;
+}
+
+.comment-form input,
+.comment-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.comment-form button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 3px;
     cursor: pointer;
+}
+
+.comment-form button:hover {
+    background-color: #0069d9;
 }
 </style>

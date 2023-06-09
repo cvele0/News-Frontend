@@ -1,25 +1,54 @@
+<!--<template>-->
+<!--    <div class="home">-->
+<!--        <h1>Most Read News</h1>-->
+<!--        <ul>-->
+<!--            <li v-for="article in paginatedArticles" :key="article.id">-->
+<!--                <h2>{{ article.title }}</h2>-->
+<!--                <p>{{ article.text.slice(0, 100) }}</p>-->
+<!--                <p v-if="article.category">Category: {{ article.category.name }}</p>-->
+<!--                <p>Publication Date: {{ formatDate(article.timeCreated) }}</p>-->
+<!--                <button @click="logArticle(article)">Opsirnije</button>-->
+<!--            </li>-->
+<!--        </ul>-->
+
+<!--        <nav>-->
+<!--            <ul class="pagination">-->
+<!--                <li class="page-item" :class="{ disabled: currentPage === 1 }">-->
+<!--                    <a class="page-link" href="#" @click="prevPage">Previous</a>-->
+<!--                </li>-->
+<!--                <li class="page-item" v-for="pageNumber in totalPages" :key="pageNumber" :class="{ active: pageNumber === currentPage }">-->
+<!--                    <a class="page-link" href="#" @click="changePage(pageNumber)">{{ pageNumber }}</a>-->
+<!--                </li>-->
+<!--                <li class="page-item" :class="{ disabled: currentPage === totalPages }">-->
+<!--                    <a class="page-link" href="#" @click="nextPage">Next</a>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--        </nav>-->
+<!--    </div>-->
+<!--</template>-->
+
 <template>
     <div class="home">
         <h1>Most Read News</h1>
-        <ul>
-            <li v-for="article in paginatedArticles" :key="article.id">
-                <h2>{{ article.title }}</h2>
-                <p>{{ article.text.slice(0, 100) }}</p>
-                <p v-if="article.category">Category: {{ article.category.name }}</p>
-                <p>Publication Date: {{ formatDate(article.timeCreated) }}</p>
-                <button @click="logArticle(article)">Opsirnije</button>
+        <ul class="list-group">
+            <li v-for="article in paginatedArticles" :key="article.id" class="list-group-item">
+                <h2 class="mb-2">{{ article.title }}</h2>
+                <p class="mb-3">{{ article.text.slice(0, 100) }}</p>
+                <p v-if="article.category" class="mb-1">Category: {{ article.category.name }}</p>
+                <p class="mb-1">Publication Date: {{ formatDate(article.timeCreated) }}</p>
+                <button @click="logArticle(article)" class="btn btn-primary">Opsirnije</button>
             </li>
         </ul>
 
         <nav>
-            <ul class="pagination">
-                <li class="page-item" :class="{ disabled: currentPage === 1 }">
+            <ul class="pagination justify-content-center mt-4">
+                <li class="page-item" :class="{ 'disabled': currentPage === 1 }">
                     <a class="page-link" href="#" @click="prevPage">Previous</a>
                 </li>
-                <li class="page-item" v-for="pageNumber in totalPages" :key="pageNumber" :class="{ active: pageNumber === currentPage }">
+                <li class="page-item" v-for="pageNumber in totalPages" :key="pageNumber" :class="{ 'active': pageNumber === currentPage }">
                     <a class="page-link" href="#" @click="changePage(pageNumber)">{{ pageNumber }}</a>
                 </li>
-                <li class="page-item" :class="{ disabled: currentPage === totalPages }">
+                <li class="page-item" :class="{ 'disabled': currentPage === totalPages }">
                     <a class="page-link" href="#" @click="nextPage">Next</a>
                 </li>
             </ul>
@@ -90,3 +119,39 @@ export default {
     // Add any necessary lifecycle hooks or methods
 }
 </script>
+
+<style>
+h3 {
+    color: #2990bf !important;
+    text-indent: 10px;
+}
+
+.home {
+    padding: 20px;
+}
+
+.list-group-item {
+    border: none;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0069d9;
+    border-color: #0062cc;
+}
+
+.page-item.disabled .page-link {
+    color: #6c757d;
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
+.page-item.disabled .page-link:hover {
+    background-color: transparent;
+    border-color: transparent;
+}
+</style>

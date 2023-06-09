@@ -4,6 +4,9 @@ import HomeView from '../views/HomeView.vue'
 import MostReadView from "@/views/MostReadView.vue";
 import ByOrderView from "@/views/ByCategoryView.vue";
 import SingleNewsView from "@/views/SingleNewsView.vue";
+import CategoriesView from "@/views/CategoriesView.vue";
+import AddCategoryView from "@/views/AddCategoryView.vue";
+import EditCategoryView from "@/views/EditCategoryView.vue";
 // import LoginView from "@/views/LoginView.vue";
 // import LoginView from '../views/LoginView.vue';
 
@@ -28,20 +31,35 @@ const routes = [
     name: 'Login',
     component: () => import(/* webpackChunkName: "about" */ '../views/LoginView.vue')
   },
-  {
+  { // most read news - portal
     path: '/mostRead',
     name: 'MostRead',
     component: MostReadView
   },
-  {
+  { // all news by category - portal
     path: '/byCategory/:id',
     name: 'ByCategory',
     component: ByOrderView
   },
-  {
+  { // listing single news - portal
     path: '/getNews/:id',
     name: 'GetNews',
     component: SingleNewsView
+  },
+  { // listing all categories - cms
+    path: '/categories',
+    name: 'Categories',
+    component: CategoriesView
+  },
+  {
+    path: '/addCategory',
+    name: 'AddCategory',
+    component: AddCategoryView
+  },
+  {
+    path: '/editCategory/:id',
+    name: 'EditCategory',
+    component: EditCategoryView
   }
 ]
 

@@ -1,4 +1,29 @@
-const { defineConfig } = require('@vue/cli-service')
+// const { defineConfig } = require('@vue/cli-service')
+// module.exports = defineConfig({
+//   transpileDependencies: true
+// })
+const { defineConfig } = require('@vue/cli-service');
+
 module.exports = defineConfig({
-  transpileDependencies: true
-})
+  transpileDependencies: true,
+  configureWebpack: {
+    devServer: {
+      historyApiFallback: true,
+    },
+  },
+});
+
+// added for router changes
+// const path = require('path')
+//
+// module.exports = {
+//   chainWebpack: config => {
+//     config.resolve.alias.set(
+//         'vue$',
+//         // If using the runtime only build
+//         path.resolve(__dirname, 'node_modules/vue/dist/vue.runtime.esm.js')
+//         // Or if using full build of Vue (runtime + compiler)
+//         //path.resolve(__dirname, 'node_modules/vue/dist/vue.esm.js')
+//     )
+//   }
+// }
