@@ -28,21 +28,38 @@
         <!-- Pagination -->
         <nav v-if="totalPages > 1">
             <ul class="pagination">
-                <!-- Pagination code here -->
+                <li class="page-item" :class="{ disabled: currentPage === 1 }">
+                    <a class="page-link" href="#" @click="prevPage">Previous</a>
+                </li>
+                <li class="page-item" v-for="pageNumber in totalPages" :key="pageNumber" :class="{ active: pageNumber === currentPage }">
+                    <a class="page-link" href="#" @click="changePage(pageNumber)">{{ pageNumber }}</a>
+                </li>
+                <li class="page-item" :class="{ disabled: currentPage === totalPages }">
+                    <a class="page-link" href="#" @click="nextPage">Next</a>
+                </li>
             </ul>
         </nav>
         <br>
         <button @click="goToAddCategory" class="btn btn-primary">Add New Category</button>
+        <br>
+<!--        <CmsNewsComponent :articles="articles"></CmsNewsComponent>-->
+        <CmsNewsComponent :articles="this.articles" @update-articles="updateArticles"></CmsNewsComponent>
     </div>
 </template>
 
 <script>
+import CmsNewsComponent from "@/components/CmsNewsComponent.vue";
+
 export default {
+    components: {
+        CmsNewsComponent
+    },
     data() {
         return {
             categories: [],      // Array of categories
             currentPage: 1,     // Current page number
             pageSize: 10,       // Number of categories per page
+            articles: []        // Set the articles data here
         };
     },
     computed: {
@@ -70,7 +87,8 @@ export default {
             }
         },
         fetchCategories() {
-            this.$axios.get('/api/categories')
+            this.$axios
+                .get('/api/categories') // Adjust the URL as per your backend API endpoint
                 .then(response => {
                     this.categories = response.data;
                 })
@@ -79,15 +97,28 @@ export default {
                 });
         },
         goToAddCategory() {
-            this.$router.push({name: 'AddCategory'});
+            this.$router.push({ name: 'AddCategory' });
         },
         editCategory(category) {
             this.$router.push({ name: 'EditCategory', params: { id: category.id } });
         },
         newsByCategory(category) {
-            console.log(category);
-            //TODO: do this
-        }
+            this.$axios
+                .get(`/api/news/byCategory/${category.id}`) // Adjust the URL as per your backend API endpoint
+                .then(response => {
+                    this.articles = response.data;
+                    this.$emit('update-articles', this.articles); // Emit the custom event
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        },
+        updateArticles(articles) {
+            this.articles = articles;
+            console.log("izvrsava se");
+            console.log(this.articles.length);
+            console.log(this.articles[0]);
+        },
     },
     mounted() {
         this.fetchCategories();

@@ -9,9 +9,9 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <router-link to="/cmsNews" tag="a" class="nav-link" :class="{active: this.$router.currentRoute.name === 'Home'}">News</router-link>
-                        </li>
+<!--                        <li class="nav-item">-->
+<!--                            <router-link to="/cmsNews" tag="a" class="nav-link" :class="{active: this.$router.currentRoute.name === 'Home'}">News</router-link>-->
+<!--                        </li>-->
                         <li class="nav-item dropdown">
                             <router-link to="/cmsUsers" tag="a" class="nav-link" :class="{active: this.$router.currentRoute.name === 'Home'}">Users</router-link>
                         </li>
