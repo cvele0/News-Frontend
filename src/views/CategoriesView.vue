@@ -41,7 +41,8 @@
         </nav>
         <br>
         <button @click="goToAddCategory" class="btn btn-primary">Add New Category</button>
-        <br>
+        <br> <br>
+        <button @click="fetchAllNews" class="btn btn-primary">Show All News</button>
 <!--        <CmsNewsComponent :articles="articles"></CmsNewsComponent>-->
         <CmsNewsComponent :articles="this.articles" @update-articles="updateArticles"></CmsNewsComponent>
     </div>
@@ -107,7 +108,7 @@ export default {
                 .get(`/api/news/byCategory/${category.id}`) // Adjust the URL as per your backend API endpoint
                 .then(response => {
                     this.articles = response.data;
-                    this.$emit('update-articles', this.articles); // Emit the custom event
+                    // this.$emit('update-articles', this.articles); // Emit the custom event
                 })
                 .catch(error => {
                     console.error(error);
@@ -115,9 +116,17 @@ export default {
         },
         updateArticles(articles) {
             this.articles = articles;
-            console.log("izvrsava se");
-            console.log(this.articles.length);
-            console.log(this.articles[0]);
+        },
+        fetchAllNews() {
+            this.$axios
+                .get('/api/news') // Adjust the URL as per your backend API endpoint
+                .then(response => {
+                    this.articles = response.data;
+                    // this.$emit('update-articles', this.articles); // Emit the custom event
+                })
+                .catch(error => {
+                    console.error(error);
+                });
         },
     },
     mounted() {
