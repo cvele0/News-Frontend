@@ -13,7 +13,7 @@
 <!--                            <router-link to="/cmsNews" tag="a" class="nav-link" :class="{active: this.$router.currentRoute.name === 'Home'}">News</router-link>-->
 <!--                        </li>-->
                         <li class="nav-item dropdown">
-                            <router-link to="/cmsUsers" tag="a" class="nav-link" :class="{active: this.$router.currentRoute.name === 'Home'}">Users</router-link>
+                            <router-link to="/users" tag="a" class="nav-link" :class="{active: this.$router.currentRoute.name === 'Home'}">Users</router-link>
                         </li>
                     </ul>
                     <button @click="changeNavbarType" class="navbar-button"> PORTAL </button>

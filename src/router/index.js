@@ -10,6 +10,9 @@ import EditCategoryView from "@/views/EditCategoryView.vue";
 import CmsNewsView from "@/views/CmsNewsView.vue";
 import EditNewsView from "@/views/EditNewsView.vue";
 import CreateNewsView from "@/views/CreateNewsView.vue"
+import UsersView from "@/views/UsersView.vue";
+import AddUserView from "@/views/AddUserView.vue";
+import EditUserView from "@/views/EditUserView.vue";
 // import LoginView from "@/views/LoginView.vue";
 // import LoginView from '../views/LoginView.vue';
 
@@ -78,7 +81,22 @@ const routes = [
     path: '/createNews',
     name: 'CreateNews',
     component: CreateNewsView
-  }
+  },
+  {
+    path: '/users',
+    name: 'Users',
+    component: UsersView
+  },
+  {
+    path: '/addUser',
+    name: 'AddUser',
+    component: AddUserView
+  },
+  {
+    path: '/editUser',
+    name: 'EditUser',
+    component: EditUserView
+  },
 ]
 
 const router = new VueRouter({
