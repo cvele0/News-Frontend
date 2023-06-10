@@ -20,8 +20,11 @@
                         </li>
                     </ul>
                     <button @click="changeNavbarType" class="navbar-button"> CMS </button>
-                    <form v-if="canLogout" class="d-flex" @submit.prevent="logout">
-                        <button class="btn btn-outline-secondary" type="submit">Logout</button>
+                    <form class="d-flex" @submit.prevent="login" v-if="!isLoggedIn">
+                        <button class="btn btn-success ms-2" type="submit">Login</button>
+                    </form>
+                    <form class="d-flex" @submit.prevent="logout" v-else>
+                        <button class="btn btn-danger login-button" type="submit">Logout</button>
                     </form>
                 </div>
             </div>
@@ -39,14 +42,19 @@ export default {
     },
   name: "MyNavbar",
   computed: {
-    canLogout() {
-      return this.$route.name !== 'Login';
-    }
+      canLogout() {
+          const jwt = localStorage.getItem('jwt');
+          return jwt !== null && jwt.length > 0;
+      }
   },
   methods: {
     logout() {
       localStorage.removeItem('jwt');
+      this.isLoggedIn = false;
       this.$router.push({name: 'Login'});
+    },
+    login() {
+        this.$router.push({ name: 'Login' });
     },
     fetchCategories() {
         this.$axios.get('/api/categories') // Replace '/api/categories' with your actual API endpoint
@@ -95,10 +103,12 @@ export default {
   },
   mounted() {
       this.fetchCategories(); // Fetch categories when the component is mounted
+      this.isLoggedIn = localStorage.getItem('jwt') !== null;
   },
   data() {
       return {
-          categories: []
+          categories: [],
+          isLoggedIn: false
       }
   },
   created() {
@@ -121,9 +131,41 @@ export default {
 </script>
 
 <style scooped>
-.my-navbar-toast {
-    background-color: red;
+.navbar-button {
+    margin-right: 10px;
+}
+
+.login-button {
+    background-color: green;
     color: white;
+}
+
+.logout-button {
+    background-color: blue;
+    color: white;
+}
+
+.login-button:hover,
+.logout-button:hover {
+    opacity: 0.8;
+}
+
+.login-button:focus,
+.logout-button:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.login-button:active,
+.logout-button:active {
+    transform: translateY(1px);
+}
+
+.my-navbar-toast {
+    background-color: #fa3e3e;
+    color: white;
+    font-family: Amiri;
+    font-weight: bolder;
     font-weight: bold;
 }
 </style>

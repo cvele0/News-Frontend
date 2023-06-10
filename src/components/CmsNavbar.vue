@@ -17,8 +17,11 @@
                         </li>
                     </ul>
                     <button @click="changeNavbarType" class="navbar-button"> PORTAL </button>
-                    <form v-if="canLogout" class="d-flex" @submit.prevent="logout">
-                        <button class="btn btn-outline-secondary" type="submit">Logout</button>
+                    <form class="d-flex" @submit.prevent="login" v-if="!isLoggedIn">
+                        <button class="btn btn-success ms-2" type="submit">Login</button>
+                    </form>
+                    <form class="d-flex" @submit.prevent="logout" v-else>
+                        <button class="btn btn-danger login-button" type="submit">Logout</button>
                     </form>
                 </div>
             </div>
@@ -35,13 +38,18 @@ export default {
     name: "CmsNavbar",
     computed: {
         canLogout() {
-            return this.$route.name !== 'Login';
+            const jwt = localStorage.getItem('jwt');
+            return jwt !== null && jwt.length > 0;
         }
     },
     methods: {
         logout() {
             localStorage.removeItem('jwt');
+            this.loggedIn = false;
             this.$router.push({name: 'Login'});
+        },
+        login() {
+            this.$router.push({ name: 'Login' });
         },
         fetchCategories() {
             this.$axios.get('/api/categories') // Replace '/api/categories' with your actual API endpoint
@@ -72,15 +80,37 @@ export default {
     },
     mounted() {
         this.fetchCategories(); // Fetch categories when the component is mounted
+        this.isLoggedIn = localStorage.getItem('jwt') !== null;
     },
     data() {
         return {
-            categories: []
+            categories: [],
+            isLoggedIn: false
         }
     },
 }
 </script>
 
 <style scoped>
+.navbar-button {
+    margin-right: 10px;
+}
 
+form {
+    margin-left: 10px;
+}
+
+form button {
+    margin-left: 10px;
+}
+
+.btn-outline-danger {
+    border-color: red;
+    color: red;
+}
+
+.btn-outline-success {
+    border-color: green;
+    color: green;
+}
 </style>
