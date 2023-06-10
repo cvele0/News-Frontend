@@ -13,8 +13,6 @@ import CreateNewsView from "@/views/CreateNewsView.vue"
 import UsersView from "@/views/UsersView.vue";
 import AddUserView from "@/views/AddUserView.vue";
 import EditUserView from "@/views/EditUserView.vue";
-// import LoginView from "@/views/LoginView.vue";
-// import LoginView from '../views/LoginView.vue';
 
 Vue.use(VueRouter)
 
@@ -103,15 +101,26 @@ const router = new VueRouter({
   routes
 })
 
-// const navbarType = localStorage.getItem('navbarType');
-//
-// // Check if a default route is stored in localStorage
-// if (navbarType === 'portal') {
-//   // Replace the current route with the stored default route
-//   router.replace({ name: 'home' });
-// } else {
-//   // Set a default route if no route is stored in localStorage
-//   router.replace({ name: 'Categories' });
-// }
+router.beforeEach((to, from, next) => {
+  const token = localStorage.getItem('jwt');
+
+  if (to.name === 'Users') {
+    // Check if the token exists and its type is 'admin'
+    if (token && getTokenType(token) === 'admin') {
+      next(); // Allow access to the route
+    } else {
+      // Redirect to another route or display an error message
+      next({ name: 'home' }); // Redirect to the home route
+    }
+  } else {
+    next(); // Allow access to other routes
+  }
+});
+
+function getTokenType(token) {
+  // Parse the token and extract the 'type' field
+  const parsedToken = JSON.parse(atob(token.split('.')[1]));
+  return parsedToken.type;
+}
 
 export default router

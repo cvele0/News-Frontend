@@ -24,7 +24,7 @@
             </div>
             <div class="form-group">
                 <label for="status">Password:</label>
-                <input type="text" id="password" v-model="user.hashedPassword" required>
+                <input type="password" id="password" v-model="user.hashedPassword" required>
             </div>
             <button type="submit" class="btn btn-primary">Add User</button>
         </form>
@@ -49,7 +49,11 @@ export default {
         addUser() {
             // Make the Axios request to your backend API
             this.$axios
-                .post("/api/users", this.user)
+                .post("/api/users", this.user, {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('jwt')}` // Add the token to the request headers
+                    }
+                })
                 // eslint-disable-next-line no-unused-vars
                 .then(response => {
                     // Handle the response if needed

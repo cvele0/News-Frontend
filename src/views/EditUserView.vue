@@ -51,7 +51,11 @@ export default {
             const userId = this.$route.params.id;
             // Make the Axios request to fetch the user data from the backend
             this.$axios
-                .get(`/api/users/${userId}`)
+                .get(`/api/users/${userId}`, {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('jwt')}` // Add the token to the request headers
+                    }
+                })
                 .then(response => {
                     // Populate the form fields with the fetched user data
                     const { name, surname, email, type, status, hashedPassword } = response.data;
@@ -71,7 +75,11 @@ export default {
             const userId = this.$route.params.id;
             // Make the Axios request to update the user data on the backend
             this.$axios
-                .put(`/api/users/${userId}`, this.user)
+                .put(`/api/users/${userId}`, this.user, {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('jwt')}` // Add the token to the request headers
+                    }
+                })
                 // eslint-disable-next-line no-unused-vars
                 .then(response => {
                     // Handle the response if needed
@@ -87,7 +95,11 @@ export default {
             const userId = this.$route.params.id;
             // Make the Axios request to delete the user on the backend
             this.$axios
-                .delete(`/api/users/${userId}`)
+                .delete(`/api/users/${userId}`, {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('jwt')}` // Add the token to the request headers
+                    }
+                })
                 // eslint-disable-next-line no-unused-vars
                 .then(response => {
                     // Handle the response if needed

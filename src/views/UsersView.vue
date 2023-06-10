@@ -81,7 +81,11 @@ export default {
         },
         fetchUsers() {
             this.$axios
-                .get('/api/users') // Adjust the URL as per your backend API endpoint
+                .get('/api/users', {
+                    headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem('jwt'), // Get the JWT token from localStorage
+                    },
+                })
                 .then(response => {
                     this.users = response.data;
                 })
@@ -98,6 +102,7 @@ export default {
     },
     mounted() {
         this.fetchUsers();
+        console.log(localStorage.getItem('jwt'));
     }
 };
 </script>
