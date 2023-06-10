@@ -104,13 +104,25 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('jwt');
 
-  if (to.name === 'Users') {
+  if (to.name === 'Users' || to.name === 'EditUser' || to.name === 'AddUser') {
     // Check if the token exists and its type is 'admin'
     if (token && getTokenType(token) === 'admin') {
       next(); // Allow access to the route
     } else {
-      // Redirect to another route or display an error message
-      next({ name: 'home' }); // Redirect to the home route
+      Vue.toasted.error('You are not authorized to access this page.', {
+        duration: 3000
+      });
+      next(false); // Prevent the navigation
+    }
+  } else if (to.name === 'CreateNews' || to.name === 'EditNews' || to.name === 'CmsNews' ||
+      to.name === 'Categories' || to.name === 'AddCategory') {
+    if (token && (getTokenType(token) === 'admin' || getTokenType(token) === 'content-creator')) {
+      next(); // Allow access to the route
+    } else {
+      Vue.toasted.error('You are not authorized to access this page.', {
+        duration: 3000
+      });
+      next(false); // Prevent the navigation
     }
   } else {
     next(); // Allow access to other routes

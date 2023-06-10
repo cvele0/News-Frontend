@@ -130,6 +130,13 @@ export default {
                 .then(response => {
                     this.articles = response.data;
                     // this.$emit('update-articles', this.articles); // Emit the custom event
+                    const cmsNewsComponent = this.$refs.cmsNewsComponent;
+
+                    // Scroll to the component's element using scrollIntoView
+                    cmsNewsComponent.$el.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
                 })
                 .catch(error => {
                     console.error(error);

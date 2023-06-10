@@ -70,6 +70,25 @@ export default {
         }
     },
     changeNavbarType() {
+        const jwt = localStorage.getItem('jwt');
+
+        // Decode the JWT to extract the payload
+        const jwtPayload = jwt.split('.')[1];
+        const decodedPayload = JSON.parse(atob(jwtPayload));
+
+        // Retrieve the "type" attribute from the payload
+        const type = decodedPayload.type;
+
+        // Use the "type" attribute as needed
+        if (type !== 'admin' && type !== 'content-creator') {
+            this.$toasted.show('Access denied. You do not have the required permissions.', {
+                theme: 'my-navbar-toast' // Use the registered toast theme
+            });
+            setTimeout(() => {
+                this.$toasted.clear(); // Dismiss the toast after the specified duration
+            }, 3000); // Adjust the duration as needed (in milliseconds)
+            return;
+        }
         this.$emit('change-navbar-type'); // Emit the custom event
         this.$router.push({name: 'Categories'});
     },
@@ -83,10 +102,28 @@ export default {
       }
   },
   created() {
-
+      this.$toasted.register('my-navbar-toast', message => {
+          return message; // Modify this as per your toast notification component or styling
+      }, {
+          type: 'error', // Type of the toast (error, success, info, etc.)
+          duration: 3000, // Duration to show the toast in milliseconds (3 seconds in this example)
+          position: 'top-right', // Position of the toast notification
+          action: {
+              text: 'Close',
+              onClick: (e, toastObject) => {
+                  toastObject.goAway(0); // Dismiss the toast when the "Close" button is clicked
+              }
+          },
+          className: 'my-navbar-toast' // Custom CSS class for the toast
+      });
   },
 }
 </script>
 
-<style scoped>
+<style scooped>
+.my-navbar-toast {
+    background-color: red;
+    color: white;
+    font-weight: bold;
+}
 </style>

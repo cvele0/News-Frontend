@@ -37,5 +37,18 @@ export default {
         MyNavbar,
         CmsNavbar,
     },
+    created() {
+        // Check if navbarType is already stored in localStorage
+        const storedNavbarType = localStorage.getItem('navbarType');
+
+        if (storedNavbarType) {
+            // If navbarType is stored in localStorage, assign it to the component's data
+            this.navbarType = storedNavbarType;
+        } else {
+            // If navbarType is not stored in localStorage, set it to "portal"
+            this.navbarType = 'portal';
+            localStorage.setItem('navbarType', 'portal'); // Store the initial navbar type in localStorage
+        }
+    },
 };
 </script>

@@ -65,8 +65,9 @@ export default {
             }
         },
         changeNavbarType() {
-            this.$emit('change-navbar-type'); // Emit the custom event
-            this.$router.push({name: 'home'});
+            // Emit the custom event
+            this.$emit('change-navbar-type');
+            this.$router.push({ name: 'home' });
         },
     },
     mounted() {
@@ -76,9 +77,6 @@ export default {
         return {
             categories: []
         }
-    },
-    created() {
-
     },
 }
 </script>

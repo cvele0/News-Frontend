@@ -46,7 +46,11 @@ export default {
         })
             .then(response => {
                 localStorage.setItem('jwt', response.data.jwt);
-                this.$router.push({ name: 'home' });
+                if (localStorage.getItem('navbarType') === 'cms') {
+                    this.$router.push({ name: 'Categories' });
+                } else {
+                    this.$router.push({ name: 'home' });
+                }
             })
             .catch(error => {
                 // Handle the error here
