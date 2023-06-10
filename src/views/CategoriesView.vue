@@ -44,7 +44,7 @@
         <br> <br>
         <button @click="fetchAllNews" class="btn btn-primary">Show All News</button>
 <!--        <CmsNewsComponent :articles="articles"></CmsNewsComponent>-->
-        <CmsNewsComponent :articles="this.articles" @update-articles="updateArticles"></CmsNewsComponent>
+        <CmsNewsComponent ref="cmsNewsComponent" :articles="this.articles" @update-articles="updateArticles"></CmsNewsComponent>
     </div>
 </template>
 
@@ -109,6 +109,13 @@ export default {
                 .then(response => {
                     this.articles = response.data;
                     // this.$emit('update-articles', this.articles); // Emit the custom event
+                    const cmsNewsComponent = this.$refs.cmsNewsComponent;
+
+                    // Scroll to the component's element using scrollIntoView
+                    cmsNewsComponent.$el.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
                 })
                 .catch(error => {
                     console.error(error);

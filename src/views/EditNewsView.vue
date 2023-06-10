@@ -21,6 +21,7 @@
                 </select>
             </div>
             <button type="submit" class="btn btn-primary">Update News</button>
+            <button @click="deleteNews" class="btn btn-danger">Delete News</button>
         </form>
     </div>
 </template>
@@ -87,6 +88,39 @@ export default {
                 .catch(error => {
                     // Handle the error if needed
                     console.error('Failed to fetch news:', error);
+                });
+        },
+        deleteNews() {
+            const newsId = this.news.id;
+
+            // Make the Axios request to delete the news on the backend
+            this.$axios.delete(`/api/news/${newsId}`)
+                // eslint-disable-next-line no-unused-vars
+                .then(response => {
+                    // Handle the response if needed
+                    console.log('News deleted successfully!');
+
+                    // Delete comments associated with the news
+                    this.deleteComments(newsId);
+
+                    this.$router.push({ name: 'CmsNews' });
+                })
+                .catch(error => {
+                    // Handle the error if needed
+                    console.error('Failed to delete news:', error);
+                });
+        },
+        deleteComments(newsId) {
+            // Make the Axios request to delete comments associated with the news
+            this.$axios.delete(`/api/comments/byNewsId/${newsId}`)
+                // eslint-disable-next-line no-unused-vars
+                .then(response => {
+                    // Handle the response if needed
+                    console.log('Comments deleted successfully!');
+                })
+                .catch(error => {
+                    // Handle the error if needed
+                    console.error('Failed to delete comments:', error);
                 });
         }
     },
